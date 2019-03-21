@@ -60,26 +60,46 @@ function drawPlot(data){
       Plotly.newPlot('myDiv', data, layout);
 
 }
-
-function setTurbo(){
-   fetch(pmUrl)
+async function getCurrentPM(){
+    var data
+    await fetch(pmUrl)
     .then(res => res.json())
+    .then(d=> data=d)
+    console.log('pm',data)
+    return data
+}
+async function getCurrentFavoriteMode(){
+    var data
+    await fetch(favoriteUrl).then(response=>response.json())
+        .then(d=> data=d)
+        console.log('fav',data)
+
+    return data
+}
+async function setFavoriteLevel(level){
+    var data;
+    await fetch(favoriteUrl+level).then(response=>response.json())
+        .then(d=> data=d)
+     return data
+}
+function setTurbo(){
+   getCurrentPM()
     .then(pm => {
         if(pm>25){
-            fetch(favoriteUrl).then(response=>response.json())
+                getCurrentFavoriteMode()
                 .then(favorite=>{
                     console.log("favorite",favorite)
                     if(favorite<10){
-                        fetch(favoriteUrl+"/16").then(response=>response.json()).then(level=>console.log("level",level))
+                        setFavoriteLevel(16).then(level=>console.log("level",level))
                     }
                 })
         }
         if(pm<25){
-            fetch(favoriteUrl).then(response=>response.json())
+            getCurrentFavoriteMode()
                 .then(favorite=>{
                     console.log(favorite)
                     if(favorite>8){
-                        fetch(favoriteUrl+"/5").then(response=>response.json()).then(level=>console.log(level))
+                        setFavoriteLevel("5").then(level=>console.log(level))
                     }
                 })
         }
