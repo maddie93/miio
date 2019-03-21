@@ -1,7 +1,10 @@
 var express = require("express");
 const miio = require('miio');
+var cors = require('cors')
 
 var app = express();
+app.use(cors())
+
 var device = {}
 //var pmdata = {k:{time:[],pm:[]}, p1:{time:[],pm:[]}, p2:{time:[],pm:[]}, p3:{time:[],pm:[]}}
 var devices = {}
@@ -46,7 +49,6 @@ function onPMChanged(id, pm2_5){
   pmdata[id].time.push(currentDate);
   pmdata[id].pm.push(pm2_5);
   console.log(id, " = ", currentDate, ": ", pm2_5)
-
 }
 
 
