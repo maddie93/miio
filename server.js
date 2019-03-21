@@ -3,7 +3,7 @@ const miio = require('miio');
 
 var app = express();
 var device = {}
-var pmdata = []
+var pmdata = {time: [], pm: []}
 
 miio.device({ address: '192.168.1.119', token: '0f02950cb5b6a1968dd26e21419d077b' })
   .then(dev => {
@@ -13,7 +13,8 @@ miio.device({ address: '192.168.1.119', token: '0f02950cb5b6a1968dd26e21419d077b
 function onPMChanged(pm2_5){
   console.log(pm2_5)
   var currentDate = new Date();
-  pmdata.push({time: currentDate, pm: pm2_5})
+  pmdata.time.push(currentDate);
+  pmdata.pm.push(pm2_5);
 }
 
 
@@ -56,3 +57,44 @@ app.get('/favorite/:level', (req, res, next) =>  {
     device.favoriteLevel(parseInt(req.params.level))
     res.json(req.params.level);
 });
+
+
+app.get('/pmget', (req, res, next) =>  {
+  var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://shipit-d1d3.restdb.io/rest/pmlog",
+    "method": "GET",
+    "headers": {
+      "content-type": "application/json",
+      "x-apikey": "8d319113cf1ac247ba50e02f47470662d6e60",
+      "cache-control": "no-cache"
+    }
+  }
+
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+    res.json(response);
+  });
+});
+
+app.get('/pmpost', (req, res, next) => {
+  var settingspost = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://shipit-d1d3.restdb.io/rest/pmlog",
+    "method": "POST",
+    "headers": {
+      "content-type": "application/json",
+      "x-apikey": "8d319113cf1ac247ba50e02f47470662d6e60",
+      "cache-control": "no-cache"
+    },
+    "processData": false,
+    "data": JSON.stringify(pmdata)
+  }
+
+  $.ajax(settingspost).done(function (response) {
+    console.log(response);
+    res.json(response);
+
+  });});
