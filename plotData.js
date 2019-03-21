@@ -3,14 +3,19 @@ var pmUrl = 'http://localhost:3000/pm';
 var favoriteUrl = 'http://localhost:3000/favorite';
 var pm;
 var times = [];
-fetch(url)
+getPlotData(url)
+window.setTimeout(function(){ getPlotData(url);
+    setTurbo()
+}, 10000);
+
+function getPlotData(url){
+    fetch(url)
     .then((response) => response.json())
     .then(function(data){
-            //console.log(data.pm)
         drawPlot(data);
 
     })
-
+}
 function drawPlot(data){
 
     var trace1 = {
