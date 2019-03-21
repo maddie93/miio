@@ -1,4 +1,4 @@
-var url = 'http://localhost:3000/pmlog';
+var url = 'http://localhost:3000/pmlog/p1';
 var pmUrl = 'http://localhost:3000/pm';
 var favoriteUrl = 'http://localhost:3000/favorite';
 var pm;
@@ -6,8 +6,8 @@ var times = [];
 fetch(url)
     .then((response) => response.json())
     .then(function(data){ 
-            
-        drawPlot(data.pm, data.times)
+            console.log(data.pm)
+        drawPlot(data.pm, data.time)
         
     })
 
@@ -41,7 +41,7 @@ function drawPlot(pm, time){
       Plotly.newPlot('myDiv', data, layout);
 
 }
-var obj
+
 function setTurbo(){
    fetch(pmUrl)
     .then(res => res.json())
