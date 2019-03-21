@@ -1,0 +1,23 @@
+{
+  "name": "miio-purifier-ship-it",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maddie93/miio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maddie93/miio/issues"
+  },
+  "homepage": "https://github.com/maddie93/miio#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "miio": "^0.15.6"
+  }
+}
