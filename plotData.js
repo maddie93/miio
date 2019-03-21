@@ -1,28 +1,42 @@
-var url = 'http://localhost:3000/pmlog/p1';
+var url = 'http://localhost:3000/pmlog';
 var pmUrl = 'http://localhost:3000/pm';
 var favoriteUrl = 'http://localhost:3000/favorite';
 var pm;
-var times = []; 
+var times = [];
 fetch(url)
     .then((response) => response.json())
-    .then(function(data){ 
-            console.log(data.pm)
-        drawPlot(data.pm, data.time)
-        
+    .then(function(data){
+            //console.log(data.pm)
+        drawPlot(data);
+
     })
 
-function drawPlot(pm, time){
+function drawPlot(data){
+
     var trace1 = {
-        x: time,
-        y: pm,
+        x: data.k.time,
+        y: data.k.pm,
         mode: 'lines',
-        name: 'PM',
-        line: {
-        color: 'rgb(219, 64, 82)',
-        width: 3
-        }
+        name: 'kuchnia'
       };
-      
+      var trace2 = {
+          x: data.p1.time,
+          y: data.p1.pm,
+          mode: 'lines',
+          name: 'pietro 1'
+        };
+        var trace3 = {
+                x: data.p2.time,
+                y: data.p2.pm,
+                mode: 'lines',
+                name: 'pietro 2',
+              };
+              var trace4 = {
+                      x: data.p3.time,
+                      y: data.p3.pm,
+                      mode: 'lines',
+                      name: 'pietro 3',
+                    };
       var layout = {
         title:'PM 2.5 against time',
         xaxis: {
@@ -35,9 +49,9 @@ function drawPlot(pm, time){
         },
         height: 500,
     };
-      
-      var data = [trace1];
-      
+
+      var data = [trace1, trace2, trace3, trace4];
+
       Plotly.newPlot('myDiv', data, layout);
 
 }
