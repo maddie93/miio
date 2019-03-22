@@ -443,6 +443,18 @@ th {
   transition: 0.3s;
   font-size: 17px;
 }
+.tab h3{
+  background-color: inherit;
+  float: center;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  text-align: center;
+  font-weight: bold;
+
+}
 
 /* Change background color of buttons on hover */
 .tab button:hover {
