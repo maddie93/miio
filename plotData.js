@@ -5,6 +5,8 @@ var favoriteLevelUrl = 'http://localhost:3000/favoritelevel';
 var temperatureUrl = 'http://localhost:3000/temperature';
 var humidityUrl = 'http://localhost:3000/humidity';
 var ledonUrl = 'http://localhost:3000/ledon';
+var ledoffUrl = 'http://localhost:3000/ledoff';
+
 var onUrl = 'http://localhost:3000/on';
 var offUrl = 'http://localhost:3000/off';
 
@@ -115,6 +117,9 @@ async function setFavoriteLevel(device, level){
 async function setLedOn(device){
     await fetch(ledonUrl+"/"+device).then(response=>response.json());
 }
+async function setLedOff(device){
+    await fetch(ledoffUrl+"/"+device).then(response=>response.json());
+}
 async function turnOff(device){
     await fetch(offUrl+"/"+device).then(response=>response.json());
 }
@@ -164,7 +169,7 @@ function openTab(evt, name) {
     setDataInTab(name);
   }
 
-  function setDataInTab(name){
+function setDataInTab(name){
         tabContent = document.getElementById(name)
 
      
@@ -187,9 +192,13 @@ function openTab(evt, name) {
             labelHum.textContent="Humidity: ";
 
             div = document.createElement("div");
+            
             buttonLed= document.createElement("button")
             buttonLed.onclick=function(){setLedOn(name)}
             buttonLed.textContent= "Turn Led on"
+            buttonLedOff= document.createElement("button")
+            buttonLedOff.onclick=function(){setLedOff(name)}
+            buttonLedOff.textContent= "Turn Led off"
         
             buttonOn= document.createElement("button")
             buttonOn.onclick=function(){turnOn(name)}
@@ -199,9 +208,10 @@ function openTab(evt, name) {
             buttonOff.onclick=function(){turnOff(name)}
             buttonOff.textContent= "Turn off"
             div.appendChild(buttonLed)
+            div.appendChild(buttonLedOff)
             div.appendChild(buttonOff)
             div.appendChild(buttonOn)
-            
+
             tabContent.appendChild(labelPm)
             tabContent.appendChild(spanPm)
             tabContent.appendChild(labelFav)
