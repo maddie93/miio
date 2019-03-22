@@ -1,4 +1,4 @@
-var addres = "http://192.168.1.109:3000";
+var addres = "http://10.10.1.157:3000";
 var url = addres+ "/pmlog";
 var pmUrl = addres+'/pm';
 var favoriteUrl = addres+'/favorite';
