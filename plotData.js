@@ -208,7 +208,7 @@ function setDataInTab(name){
             labelPm.textContent="PM 2.5: ";
 
             spanFav = document.createElement("span")
-            spanFav.id = "favData";
+            spanFav.id = "favData"+name;
 
             labelFav =  document.createElement("label")
             labelFav.textContent="Favorite level: ";
@@ -264,7 +264,7 @@ function setDataInTab(name){
             inputSlider.oninput = function(value){
                 level = value.currentTarget.value
                 setFavoriteLevel(name, level).then(
-                    document.getElementById("favData").textContent="Level: "+level
+                    document.getElementById("favData"+name).textContent="Level: "+level
                 )
             };
             divFav.appendChild(labelFavLevel) ;           
