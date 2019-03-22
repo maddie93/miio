@@ -33,13 +33,52 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
     <div class="row">
-      <div class="one-half column" style="margin-top: 25%">
+      <div class="one-half column" style="margin-top: 5%">
         <h4>Pm 2.5 level in Consol 1st Floor</h4>
         <p>This is the graph of pm2.5 level</p>
       </div>
       
     </div>
   </div>
+  <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Kuchnia')">Kuchnia</button>
+        <button class="tablinks" onclick="openTab(event, 'Floor1')">Floor1</button>
+        <button class="tablinks" onclick="openTab(event, 'Floor2')">Floor2</button>
+        <button class="tablinks" onclick="openTab(event, 'Floor3')">Floor3</button>
+
+      </div>
+      
+      <div id="Kuchnia" class="tabcontent">
+        <h3>Kuchnia</h3>
+        <p>Odczyty z oczszczcza</p>
+        <label>PM 2.5</label>
+        <label>Humidity</label>
+        <label>Temperature</label>
+      </div>
+      
+      <div id="Floor1" class="tabcontent">
+        <h3>Floor1</h3>
+        <p>Odczyty z oczszczcza</p> 
+        <label>PM 2.5</label>
+        <label>Humidity</label>
+        <label>Temperature</label>
+      </div>
+      
+      <div id="Floor2" class="tabcontent">
+        <h3>Floor2</h3>
+        <p>Odczyty z oczyszczacza</p>
+        <label>PM 2.5</label>
+        <label>Humidity</label>
+        <label>Temperature</label>
+      </div>
+      <div id="Floor3" class="tabcontent">
+            <h3>Floor3</h3>
+            <p>Odczyty z oczyszczacza</p>
+            <label>PM 2.5</label>
+        <label>Humidity</label>
+        <label>Temperature</label>
+          </div>
+          
   <div id="myDiv"></div>
   <script src="plotData.js"></script>
 <!-- End Document

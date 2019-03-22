@@ -1,11 +1,16 @@
 var url = 'http://localhost:3000/pmlog';
 var pmUrl = 'http://localhost:3000/pm';
 var favoriteUrl = 'http://localhost:3000/favorite';
+var favoriteLevelUrl = 'http://localhost:3000/favoritelevel';
+
 var pm;
 var times = [];
 getPlotData(url)
 window.setTimeout(function(){ getPlotData(url);
-    setTurbo()
+    setTurbo("k");
+    setTurbo("p1");
+    setTurbo("p2");
+    setTurbo("p3");
 }, 10000);
 
 function getPlotData(url){
@@ -60,46 +65,48 @@ function drawPlot(data){
       Plotly.newPlot('myDiv', data, layout);
 
 }
-async function getCurrentPM(){
+async function getCurrentPM(device){
     var data
-    await fetch(pmUrl)
+    await fetch(pmUrl + "/"+device)
     .then(res => res.json())
     .then(d=> data=d)
-    console.log('pm',data)
+    console.log(device +" pm" + data)
     return data
 }
-async function getCurrentFavoriteMode(){
+async function getCurrentFavoriteMode(device){
     var data
-    await fetch(favoriteUrl).then(response=>response.json())
+    await fetch(favoriteLevelUrl+"/"+device).then(response=>response.json())
         .then(d=> data=d)
         console.log('fav',data)
 
     return data
 }
-async function setFavoriteLevel(level){
+async function setFavoriteLevel(device, level){
     var data;
-    await fetch(favoriteUrl+level).then(response=>response.json())
-        .then(d=> data=d)
-     return data
+    await fetch(favoriteUrl+"/"+device + "/"+level).then(response=>response.json())
+        
 }
-function setTurbo(){
-   getCurrentPM()
+function setTurbo(device){
+   getCurrentPM(device)
     .then(pm => {
         if(pm>25){
-                getCurrentFavoriteMode()
+            console.log(device + " greater")
+                getCurrentFavoriteMode(device)
                 .then(favorite=>{
-                    console.log("favorite",favorite)
                     if(favorite<10){
-                        setFavoriteLevel(16).then(level=>console.log("level",level))
+                        console.log(device+ 'favorite low pm high',favorite)
+                        setFavoriteLevel(device, "16")
                     }
                 })
         }
         if(pm<25){
-            getCurrentFavoriteMode()
+            console.log("lower")
+            getCurrentFavoriteMode(device)
                 .then(favorite=>{
                     console.log(favorite)
                     if(favorite>8){
-                        setFavoriteLevel("5").then(level=>console.log(level))
+                        console.log('favorite high pm low',favorite)
+                        setFavoriteLevel(device, "5")
                     }
                 })
         }
@@ -107,4 +114,18 @@ function setTurbo(){
     })
 }
 
-setTurbo()
+function openTab(evt, name) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(name).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+
+
