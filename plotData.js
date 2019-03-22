@@ -8,6 +8,7 @@ var humidityUrl = addres+'/humidity';
 var ledonUrl = addres+'/ledon';
 var ledoffUrl = addres+'/ledoff';
 
+var isOnUrl = addres+'/ison';
 var onUrl = addres+'/on';
 var offUrl = addres+'/off';
 
@@ -19,7 +20,7 @@ var modeUrl = addres+'/mode'
 var pm;
 var times = [];
 getPlotData(url)
-window.setInterval(function(){ 
+window.setInterval(function(){
     setTurbo("k");
     setTurbo("p1");
     setTurbo("p2");
@@ -124,10 +125,20 @@ async function getMode(device){
 
 }
 
+async function isOn(device){
+    var data
+    await fetch(isOnUrl+"/"+device).then(response=>response.json())
+        .then(d=> data=d)
+        console.log('is on',data)
+
+    return data
+
+}
+
 async function setFavoriteLevel(device, level){
     var data;
     await fetch(favoriteUrl+"/"+device + "/"+level).then(response=>response.json())
-        
+
 }
 
 async function setLedOn(device){
@@ -189,7 +200,7 @@ function openTab(evt, name) {
 function setDataInTab(name){
         tabContent = document.getElementById(name)
 
-     
+
         if(tabContent.children.length<=1){
             spanPm = document.createElement("span")
             spanPm.id = "pmData";
@@ -213,14 +224,14 @@ function setDataInTab(name){
             labelMode.textContent="Mode: ";
 
             div = document.createElement("div");
-            
+
             buttonLed= document.createElement("button")
             buttonLed.onclick=function(){setLedOn(name)}
             buttonLed.textContent= "Turn Led on"
             buttonLedOff= document.createElement("button")
             buttonLedOff.onclick=function(){setLedOff(name)}
             buttonLedOff.textContent= "Turn Led off"
-        
+
             buttonOn= document.createElement("button")
             buttonOn.onclick=function(){turnOn(name)}
             buttonOn.textContent= "Turn on"
@@ -249,19 +260,19 @@ function setDataInTab(name){
 
 
 
-            
-            
+
+
         }
          ////////////////////////////////////////PM/////////////////////////////////////////////////////////////
         getCurrentPM(name).then(pm=>{
             spanPm.textContent=pm + " micrograms"
-                       
+
         })
-        
+
          ////////////////////////////////////////Favorite level/////////////////////////////////////////////////////////////
-         
+
          getCurrentFavoriteMode(name).then(fav=>{
-             spanFav.textContent="Level: "+ fav              
+             spanFav.textContent="Level: "+ fav
          })
 
          ////////////////////////////////////////Temperature/////////////////////////////////////////////////////////////
@@ -279,6 +290,11 @@ function setDataInTab(name){
         getMode(name).then(mode=>{
             spanMode.textContent= mode ;
          })
+
+         isOn(name).then(on => {
+           console.log("asdffasfsdf")
+           console.log(on)
+           document.getElementById(name).children[0].children[0].className = on ? "dot green" : "dot red";
+         })
+
   }
-
-

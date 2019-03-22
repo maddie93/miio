@@ -473,3 +473,18 @@ th {
   border: 1px solid #ccc;
   border-top: none;
 }
+
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.red {
+  background-color: red;
+}
+.green {
+  background-color: green;
+}
