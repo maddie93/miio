@@ -1,6 +1,7 @@
 var express = require("express");
 const miio = require('miio');
 var cors = require('cors')
+const fetch = require("node-fetch");
 
 var app = express();
 app.use(cors())
@@ -50,6 +51,21 @@ function onPMChanged(id, pm2_5){
   pmdata[id].time.push(currentDate);
   pmdata[id].pm.push(pm2_5);
   console.log(id, " = ", currentDate, ": ", pm2_5)
+
+  var settingspost = {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-apikey": "8d319113cf1ac247ba50e02f47470662d6e60",
+      "cache-control": "no-cache"
+    },
+    body: JSON.stringify({id: id, time: currentDate, pm: pm2_5})
+  }
+
+  fetch("https://shipit-d1d3.restdb.io/rest/pmlog", settingspost)
+  .then(function (response) {
+    console.log(response);
+  });
 }
 
 
@@ -107,11 +123,11 @@ app.get("/ledoff/:id", (req, res, next) => {
 
 app.get('/favorite', (req, res, next) => {
     device.favoriteLevel().then(fav => res.json(fav))
-    
+
 });
 app.get('/favoritelevel/:id', (req, res, next) => {
   devices[req.params.id].favoriteLevel().then(fav => res.json(fav))
-  
+
 });
 app.get('/favorite/:level', (req, res, next) =>  {
     console.log(req.params.level)
@@ -127,6 +143,13 @@ app.get('/favorite/:id/:level', (req, res, next) =>  {
     res.json(req.params.level);
 });
 
+app.get('/mode/:id', (req, res, next) => {
+  devices[req.params.id].mode().then(fav => res.json(fav))
+});
+
+app.get('/mode/:id/:mode', (req, res, next) => {
+  devices[req.params.id].mode(req.params.mode).then(fav => res.json(fav))
+});
 
 app.get('/ison/:id', (req, res, next) =>  {
     devices[req.params.id].power().then(isOn => res.json(isOn))
@@ -140,41 +163,37 @@ app.get('/off/:id', (req, res, next) =>  {
     devices[req.params.id].setPower(false).then(res.json("it's off :()"))
 });
 
-// app.get('/pmget', (req, res, next) =>  {
-//   var settings = {
-//     "async": true,
-//     "crossDomain": true,
-//     "url": "https://shipit-d1d3.restdb.io/rest/pmlog",
-//     "method": "GET",
-//     "headers": {
-//       "content-type": "application/json",
-//       "x-apikey": "8d319113cf1ac247ba50e02f47470662d6e60",
-//       "cache-control": "no-cache"
-//     }
-//   }
-//
-//   $.ajax(settings).done(function (response) {
-//     console.log(response);
-//     res.json(response);
-//   });
-// });
+app.get('/pmget', (req, res, next) =>  {
+  var settings = {
+    "method": "GET",
+    "headers": {
+      "content-type": "application/json",
+      "x-apikey": "8d319113cf1ac247ba50e02f47470662d6e60",
+      "cache-control": "no-cache"
+    }
+  }
+
+  fetch("https://shipit-d1d3.restdb.io/rest/pmlog", settings)
+  .then(result=>result.json())
+  .then(result => {
+    // console.log(result);
+    res.json(result)
+  })
+});
 
 // app.get('/pmpost', (req, res, next) => {
 //   var settingspost = {
-//     "async": true,
-//     "crossDomain": true,
-//     "url": "https://shipit-d1d3.restdb.io/rest/pmlog",
-//     "method": "POST",
-//     "headers": {
+//     method: "POST",
+//     headers: {
 //       "content-type": "application/json",
 //       "x-apikey": "8d319113cf1ac247ba50e02f47470662d6e60",
 //       "cache-control": "no-cache"
 //     },
-//     "processData": false,
-//     "data": JSON.stringify(pmdata)
+//     body: JSON.stringify(pmdata)
 //   }
 //
-//   $.ajax(settingspost).done(function (response) {
+//   fetch("https://shipit-d1d3.restdb.io/rest/pmlog", settingspost)
+//   .then(function (response) {
 //     console.log(response);
 //     res.json(response);
 //

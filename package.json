@@ -19,6 +19,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "miio": "^0.15.6"
+    "miio": "^0.15.6",
+    "node-fetch": "^2.3.0"
   }
 }
