@@ -1,14 +1,15 @@
-var url = 'http://localhost:3000/pmlog';
-var pmUrl = 'http://localhost:3000/pm';
-var favoriteUrl = 'http://localhost:3000/favorite';
-var favoriteLevelUrl = 'http://localhost:3000/favoritelevel';
-var temperatureUrl = 'http://localhost:3000/temperature';
-var humidityUrl = 'http://localhost:3000/humidity';
-var ledonUrl = 'http://localhost:3000/ledon';
-var ledoffUrl = 'http://localhost:3000/ledoff';
+var addres = "http://192.168.1.114";
+var url = addres+'/pmlog';
+var pmUrl = addres+'/pm';
+var favoriteUrl = addres+'/favorite';
+var favoriteLevelUrl = addres+'/favoritelevel';
+var temperatureUrl = addres+'/temperature';
+var humidityUrl = addres+'/humidity';
+var ledonUrl = addres+'/ledon';
+var ledoffUrl = addres+'/ledoff';
 
-var onUrl = 'http://localhost:3000/on';
-var offUrl = 'http://localhost:3000/off';
+var onUrl = addres+'/on';
+var offUrl = addres+'/off';
 
 
 
