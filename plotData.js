@@ -1,4 +1,4 @@
-var addres = "http://192.168.1.114";
+var addres = "http://192.168.1.114:3000";
 var url = addres+'/pmlog';
 var pmUrl = addres+'/pm';
 var favoriteUrl = addres+'/favorite';
@@ -26,7 +26,7 @@ window.setInterval(function(){
 }, 10000);
 
 function getPlotData(url){
-    console.log("Getting data for plot")
+    console.log("Getting data for plot"+ url)
     fetch(url)
     .then((response) => response.json())
     .then(function(data){
