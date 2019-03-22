@@ -16,17 +16,20 @@ var offUrl = 'http://localhost:3000/off';
 var pm;
 var times = [];
 getPlotData(url)
-window.setTimeout(function(){ getPlotData(url);
+window.setInterval(function(){ 
     setTurbo("k");
     setTurbo("p1");
     setTurbo("p2");
     setTurbo("p3");
+    getPlotData(url);
 }, 10000);
 
 function getPlotData(url){
+    console.log("Getting data for plot")
     fetch(url)
     .then((response) => response.json())
     .then(function(data){
+        console.log("drawing")
         drawPlot(data);
 
     })
@@ -126,7 +129,8 @@ async function turnOff(device){
 async function turnOn(device){
     await fetch(onUrl+"/"+device).then(response=>response.json());
 }
-function setTurbo(evt, device){
+function setTurbo(device){
+   console.log("running set turbo")
    getCurrentPM(device)
     .then(pm => {
         if(pm>25){
