@@ -2,6 +2,10 @@ var url = 'http://localhost:3000/pmlog';
 var pmUrl = 'http://localhost:3000/pm';
 var favoriteUrl = 'http://localhost:3000/favorite';
 var favoriteLevelUrl = 'http://localhost:3000/favoritelevel';
+var temperatureUrl = 'http://localhost:3000/temperature';
+var humidityUrl = 'http://localhost:3000/humidity';
+
+
 
 var pm;
 var times = [];
@@ -81,6 +85,23 @@ async function getCurrentFavoriteMode(device){
 
     return data
 }
+
+async function getTemperature(device){
+    var data
+    await fetch(temperatureUrl+"/"+device).then(response=>response.json())
+        .then(d=> data=d)
+        console.log('temperature',data)
+
+    return data
+}
+async function getHumidity(device){
+    var data
+    await fetch(humidityUrl+"/"+device).then(response=>response.json())
+        .then(d=> data=d)
+        console.log('humidity',data)
+
+    return data
+}
 async function setFavoriteLevel(device, level){
     var data;
     await fetch(favoriteUrl+"/"+device + "/"+level).then(response=>response.json())
@@ -126,6 +147,66 @@ function openTab(evt, name) {
     }
     document.getElementById(name).style.display = "block";
     evt.currentTarget.className += " active";
+    setDataInTab(name);
+  }
+
+  function setDataInTab(name){
+        tabContent = document.getElementById(name)
+
+     
+        if(tabContent.children.length<=1){
+            spanPm = document.createElement("span")
+            spanPm.id = "pmData";
+            labelPm =  document.createElement("label")
+            labelPm.textContent="PM 2.5: ";
+
+            spanFav = document.createElement("span")
+            labelFav =  document.createElement("label")
+            labelFav.textContent="Favorite level: ";
+
+            spanTemp = document.createElement("span")
+            labelTemp =  document.createElement("label")
+            labelTemp.textContent="Temperature: ";
+
+            spanHum = document.createElement("span")
+            labelHum =  document.createElement("label")
+            labelHum.textContent="Humidity: ";
+            
+            tabContent.appendChild(labelPm)
+            tabContent.appendChild(spanPm)
+            tabContent.appendChild(labelFav)
+            tabContent.appendChild(spanFav)
+            tabContent.appendChild(labelTemp)
+            tabContent.appendChild(spanTemp)
+            tabContent.appendChild(labelHum)
+            tabContent.appendChild(spanHum)
+
+            
+            
+        }
+         ////////////////////////////////////////PM/////////////////////////////////////////////////////////////
+        getCurrentPM(name).then(pm=>{
+            spanPm.textContent=pm + " micrograms"
+                       
+        })
+        
+         ////////////////////////////////////////Favorite level/////////////////////////////////////////////////////////////
+         
+         getCurrentFavoriteMode(name).then(fav=>{
+             spanFav.textContent="Level: "+ fav              
+         })
+
+         ////////////////////////////////////////Temperature/////////////////////////////////////////////////////////////
+         getTemperature(name).then(temp=>{
+             spanTemp.textContent= temp.value +" " +temp.unit + " degrees";
+         }
+
+         )
+
+          ////////////////////////////////////////Humidity/////////////////////////////////////////////////////////////
+         getHumidity(name).then(hum=>{
+            spanHum.textContent= hum + " %";
+         })
   }
 
 
