@@ -14,9 +14,6 @@ var offUrl = addres+'/off';
 
 var modeUrl = addres+'/mode'
 
-
-
-
 var pm;
 var times = [];
 getPlotData(url)
@@ -154,6 +151,10 @@ async function turnOn(device){
     await fetch(onUrl+"/"+device).then(response=>response.json());
 
 }
+async function setMode(device, mode){
+    await fetch(modeUrl+"/"+device+"/"+mode).then(response=>response.json());
+
+}
 function setTurbo(device){
    console.log("running set turbo")
    getCurrentPM(device)
@@ -208,7 +209,7 @@ function setDataInTab(name){
             labelPm.textContent="PM 2.5: ";
 
             spanFav = document.createElement("span")
-            spanFav.id = "favData";
+            spanFav.id = "favData"+name;
 
             labelFav =  document.createElement("label")
             labelFav.textContent="Favorite level: ";
@@ -222,6 +223,7 @@ function setDataInTab(name){
             labelHum.textContent="Humidity: ";
 
             spanMode = document.createElement("span")
+            spanMode.id="spanMode"+name
             labelMode=  document.createElement("label")
             labelMode.textContent="Mode: ";
 
@@ -248,11 +250,20 @@ function setDataInTab(name){
                 document.getElementById(name).children[0].children[0].className = "dot red"
             }
             buttonOff.textContent= "Turn off"
+          
+            buttonMode= document.createElement("button")
+            buttonMode.onclick=function(){
+                setMode(name, "auto")
+                document.getElementById("spanMode"+name).textContent="auto"
+            }
+            buttonMode.textContent= "Turn auto mode"
 
             div.appendChild(buttonLed)
             div.appendChild(buttonLedOff)
             div.appendChild(buttonOff)
             div.appendChild(buttonOn)
+            div.appendChild(buttonMode)
+
             
             labelFavLevel = document.createElement("label")
             labelFavLevel.textContent= "Favorite Level: "
@@ -263,8 +274,10 @@ function setDataInTab(name){
             inputSlider.step="1"
             inputSlider.oninput = function(value){
                 level = value.currentTarget.value
-                setFavoriteLevel(name, level).then(
-                    document.getElementById("favData").textContent="Level: "+level
+                setFavoriteLevel(name, level).then(function(){
+                    document.getElementById("favData"+name).textContent="Level: "+level
+                    document.getElementById("spanMode"+name).textContent="favorite"
+                }
                 )
             };
             divFav.appendChild(labelFavLevel) ;           
