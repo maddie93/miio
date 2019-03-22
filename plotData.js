@@ -4,6 +4,10 @@ var favoriteUrl = 'http://localhost:3000/favorite';
 var favoriteLevelUrl = 'http://localhost:3000/favoritelevel';
 var temperatureUrl = 'http://localhost:3000/temperature';
 var humidityUrl = 'http://localhost:3000/humidity';
+var ledonUrl = 'http://localhost:3000/ledon';
+var onUrl = 'http://localhost:3000/on';
+var offUrl = 'http://localhost:3000/off';
+
 
 
 
@@ -107,7 +111,17 @@ async function setFavoriteLevel(device, level){
     await fetch(favoriteUrl+"/"+device + "/"+level).then(response=>response.json())
         
 }
-function setTurbo(device){
+
+async function setLedOn(device){
+    await fetch(ledonUrl+"/"+device).then(response=>response.json());
+}
+async function turnOff(device){
+    await fetch(offUrl+"/"+device).then(response=>response.json());
+}
+async function turnOn(device){
+    await fetch(onUrl+"/"+device).then(response=>response.json());
+}
+function setTurbo(evt, device){
    getCurrentPM(device)
     .then(pm => {
         if(pm>25){
@@ -171,6 +185,22 @@ function openTab(evt, name) {
             spanHum = document.createElement("span")
             labelHum =  document.createElement("label")
             labelHum.textContent="Humidity: ";
+
+            div = document.createElement("div");
+            buttonLed= document.createElement("button")
+            buttonLed.onclick=function(){setLedOn(name)}
+            buttonLed.textContent= "Turn Led on"
+        
+            buttonOn= document.createElement("button")
+            buttonOn.onclick=function(){turnOn(name)}
+            buttonOn.textContent= "Turn on"
+
+            buttonOff= document.createElement("button")
+            buttonOff.onclick=function(){turnOff(name)}
+            buttonOff.textContent= "Turn off"
+            div.appendChild(buttonLed)
+            div.appendChild(buttonOff)
+            div.appendChild(buttonOn)
             
             tabContent.appendChild(labelPm)
             tabContent.appendChild(spanPm)
@@ -180,6 +210,10 @@ function openTab(evt, name) {
             tabContent.appendChild(spanTemp)
             tabContent.appendChild(labelHum)
             tabContent.appendChild(spanHum)
+            tabContent.appendChild(div)
+
+
+
 
             
             
