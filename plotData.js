@@ -1,5 +1,5 @@
 var addres = "http://192.168.1.114:3000";
-var url = addres+'/pmlog';
+var url = addres+ "/pmlog";
 var pmUrl = addres+'/pm';
 var favoriteUrl = addres+'/favorite';
 var favoriteLevelUrl = addres+'/favoritelevel';
@@ -204,11 +204,12 @@ function setDataInTab(name){
 
         if(tabContent.children.length<=1){
             spanPm = document.createElement("span")
-            spanPm.id = "pmData";
             labelPm =  document.createElement("label")
             labelPm.textContent="PM 2.5: ";
 
             spanFav = document.createElement("span")
+            spanFav.id = "favData";
+
             labelFav =  document.createElement("label")
             labelFav.textContent="Favorite level: ";
 
@@ -225,6 +226,7 @@ function setDataInTab(name){
             labelMode.textContent="Mode: ";
 
             div = document.createElement("div");
+            divFav = document.createElement("div");
 
             buttonLed= document.createElement("button")
             buttonLed.onclick=function(){setLedOn(name)}
@@ -251,7 +253,24 @@ function setDataInTab(name){
             div.appendChild(buttonLedOff)
             div.appendChild(buttonOff)
             div.appendChild(buttonOn)
+            
+            labelFavLevel = document.createElement("label")
+            labelFavLevel.textContent= "Favorite Level: "
+            inputSlider = document.createElement("input")
+            inputSlider.type="range";
+            inputSlider.min= "0";
+            inputSlider.max="16";
+            inputSlider.step="1"
+            inputSlider.oninput = function(value){
+                level = value.currentTarget.value
+                setFavoriteLevel(name, level).then(
+                    document.getElementById("favData").textContent="Level: "+level
+                )
+            };
+            divFav.appendChild(labelFavLevel) ;           
 
+            divFav.appendChild(inputSlider);
+            
             tabContent.appendChild(labelPm)
             tabContent.appendChild(spanPm)
             tabContent.appendChild(labelFav)
@@ -263,6 +282,8 @@ function setDataInTab(name){
             tabContent.appendChild(labelMode)
             tabContent.appendChild(spanMode)
             tabContent.appendChild(div)
+            tabContent.appendChild(divFav)
+
 
 
 
@@ -279,7 +300,8 @@ function setDataInTab(name){
          ////////////////////////////////////////Favorite level/////////////////////////////////////////////////////////////
 
          getCurrentFavoriteMode(name).then(fav=>{
-             spanFav.textContent="Level: "+ fav
+             spanFav.textContent="Level: "+ fav;
+             inputSlider.defaultValue= fav;
          })
 
          ////////////////////////////////////////Temperature/////////////////////////////////////////////////////////////
