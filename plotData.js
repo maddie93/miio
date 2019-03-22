@@ -11,6 +11,8 @@ var ledoffUrl = addres+'/ledoff';
 var onUrl = addres+'/on';
 var offUrl = addres+'/off';
 
+var modeUrl = addres+'/mode'
+
 
 
 
@@ -112,6 +114,16 @@ async function getHumidity(device){
 
     return data
 }
+async function getMode(device){
+    var data
+    await fetch(modeUrl+"/"+device).then(response=>response.json())
+        .then(d=> data=d)
+        console.log('mode',data)
+
+    return data
+
+}
+
 async function setFavoriteLevel(device, level){
     var data;
     await fetch(favoriteUrl+"/"+device + "/"+level).then(response=>response.json())
@@ -196,6 +208,10 @@ function setDataInTab(name){
             labelHum =  document.createElement("label")
             labelHum.textContent="Humidity: ";
 
+            spanMode = document.createElement("span")
+            labelMode=  document.createElement("label")
+            labelMode.textContent="Mode: ";
+
             div = document.createElement("div");
             
             buttonLed= document.createElement("button")
@@ -212,6 +228,7 @@ function setDataInTab(name){
             buttonOff= document.createElement("button")
             buttonOff.onclick=function(){turnOff(name)}
             buttonOff.textContent= "Turn off"
+
             div.appendChild(buttonLed)
             div.appendChild(buttonLedOff)
             div.appendChild(buttonOff)
@@ -225,6 +242,8 @@ function setDataInTab(name){
             tabContent.appendChild(spanTemp)
             tabContent.appendChild(labelHum)
             tabContent.appendChild(spanHum)
+            tabContent.appendChild(labelMode)
+            tabContent.appendChild(spanMode)
             tabContent.appendChild(div)
 
 
@@ -255,6 +274,10 @@ function setDataInTab(name){
           ////////////////////////////////////////Humidity/////////////////////////////////////////////////////////////
          getHumidity(name).then(hum=>{
             spanHum.textContent= hum + " %";
+         })
+                   ////////////////////////////////////////Mode/////////////////////////////////////////////////////////////
+        getMode(name).then(mode=>{
+            spanMode.textContent= mode ;
          })
   }
 
