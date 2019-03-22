@@ -152,6 +152,7 @@ async function turnOff(device){
 }
 async function turnOn(device){
     await fetch(onUrl+"/"+device).then(response=>response.json());
+
 }
 function setTurbo(device){
    console.log("running set turbo")
@@ -233,11 +234,17 @@ function setDataInTab(name){
             buttonLedOff.textContent= "Turn Led off"
 
             buttonOn= document.createElement("button")
-            buttonOn.onclick=function(){turnOn(name)}
+            buttonOn.onclick=function(){
+                turnOn(name)
+                document.getElementById(name).children[0].children[0].className = "dot green"
+            }
             buttonOn.textContent= "Turn on"
 
             buttonOff= document.createElement("button")
-            buttonOff.onclick=function(){turnOff(name)}
+            buttonOff.onclick=function(){
+                turnOff(name)
+                document.getElementById(name).children[0].children[0].className = "dot red"
+            }
             buttonOff.textContent= "Turn off"
 
             div.appendChild(buttonLed)
@@ -292,8 +299,6 @@ function setDataInTab(name){
          })
 
          isOn(name).then(on => {
-           console.log("asdffasfsdf")
-           console.log(on)
            document.getElementById(name).children[0].children[0].className = on ? "dot green" : "dot red";
          })
 
