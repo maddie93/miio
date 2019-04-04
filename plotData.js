@@ -161,11 +161,19 @@ function setTurbo(device){
     .then(pm => {
         if(pm>25){
             console.log(device + " greater")
+                getMode(device).then(
+                    mode=>{
+                        if(mode!="favorite"){
+                            setMode(device, "favorite")
+                        }
+                    }
+
+                )
                 getCurrentFavoriteMode(device)
                 .then(favorite=>{
                     if(favorite<10){
                         console.log(device+ 'favorite low pm high',favorite)
-                        setFavoriteLevel(device, "16")
+                        setFavoriteLevel(device, "10")
                     }
                 })
         }
