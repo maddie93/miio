@@ -173,8 +173,8 @@ function setTurbo(device){
             console.log("lower")
             getMode(device)
                 .then(mode=>{
-                    console.log(mode)
-                    if(!mode=="auto"){
+                    console.log(mode + "pm LOW")
+                    if(mode!="auto"){
                         console.log('mode for low pm',mode)
                         setMode(device, "auto")
                     }
